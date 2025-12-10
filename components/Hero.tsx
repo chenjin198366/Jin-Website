@@ -15,7 +15,7 @@ const Hero: React.FC<HeroProps> = ({ lang }) => {
         <div className="absolute inset-0 bg-blue-600 rounded-full blur-2xl opacity-20 group-hover:opacity-30 transition-opacity duration-500"></div>
         <div className="relative w-full h-full rounded-full p-1 bg-white shadow-2xl shadow-blue-200 ring-1 ring-gray-100 overflow-hidden">
              <img 
-                src="./profile.jpg" 
+                src="/profile.jpg" 
                 alt="Jin Chen" 
                 className="w-full h-full rounded-full object-cover hover:scale-105 transition-transform duration-500"
              />
