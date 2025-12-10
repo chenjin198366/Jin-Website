@@ -9,7 +9,7 @@ interface CardProps {
 const Card: React.FC<CardProps> = ({ children, className = '', delay = '0s' }) => {
   return (
     <div 
-      className={`bg-[#1c1c1e] rounded-[30px] p-8 transition-all duration-300 hover:scale-[1.02] hover:bg-[#2c2c2e] hover:shadow-2xl border border-white/5 ${className}`}
+      className={`bg-white rounded-[30px] p-8 transition-all duration-300 hover:scale-[1.01] hover:shadow-xl border border-gray-200 shadow-sm ${className}`}
       style={{ animationDelay: delay }}
     >
       {children}

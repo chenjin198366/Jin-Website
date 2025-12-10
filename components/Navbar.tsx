@@ -9,14 +9,14 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ lang, toggleLang }) => {
   return (
-    <nav className="fixed top-0 w-full bg-black/70 backdrop-blur-md border-b border-white/10 z-50">
+    <nav className="fixed top-0 w-full bg-white/80 backdrop-blur-md border-b border-gray-200 z-50 transition-colors duration-300">
       <div className="max-w-5xl mx-auto px-6 py-4 flex justify-between items-center">
-        <div className="font-semibold text-lg tracking-tight text-white">
+        <div className="font-semibold text-lg tracking-tight text-gray-900">
           JIN CHEN
         </div>
         <button
           onClick={toggleLang}
-          className="group flex items-center gap-2 px-4 py-1.5 rounded-full border border-blue-500 text-blue-400 text-sm hover:bg-blue-600 hover:text-white transition-all duration-300"
+          className="group flex items-center gap-2 px-4 py-1.5 rounded-full border border-gray-300 text-gray-600 text-sm hover:border-blue-600 hover:text-blue-600 hover:bg-blue-50 transition-all duration-300"
           aria-label="Toggle Language"
         >
           <Globe size={14} />

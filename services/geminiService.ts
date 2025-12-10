@@ -2,8 +2,19 @@ import { GoogleGenAI } from "@google/genai";
 import { SYSTEM_INSTRUCTION } from '../constants';
 
 // Initialize the API client.
-// Note: In a real production build, ensure process.env.API_KEY is replaced or available.
-const apiKey = process.env.API_KEY || ''; 
+// Safely check for process.env to avoid "process is not defined" errors in browser environments
+const getApiKey = () => {
+  try {
+    if (typeof process !== 'undefined' && process.env) {
+      return process.env.API_KEY || '';
+    }
+  } catch (e) {
+    // Ignore reference errors
+  }
+  return '';
+};
+
+const apiKey = getApiKey();
 const ai = new GoogleGenAI({ apiKey });
 
 export const sendMessageToGemini = async (
