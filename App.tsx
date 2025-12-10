@@ -1,122 +1,135 @@
 import React, { useState } from 'react';
-import Navbar from './components/Navbar';
-import Hero from './components/Hero';
-import Card from './components/Card';
-import { CONTENT } from './constants';
+import { RESUME_CONTENT } from './constants';
 import { Language } from './types';
-import { Mail, Award, Terminal, Server, Briefcase } from 'lucide-react';
 
 const App: React.FC = () => {
-  // Default language set to Chinese ('cn')
   const [lang, setLang] = useState<Language>('cn');
 
   const toggleLang = () => {
-    setLang(prev => (prev === 'en' ? 'cn' : 'en'));
+    setLang(prev => prev === 'cn' ? 'en' : 'cn');
   };
 
-  const { sections, skills, experience, certifications } = CONTENT;
+  const { header, summary, education, skills, certifications, experience } = RESUME_CONTENT;
 
   return (
-    <div className="min-h-screen bg-gray-50 text-gray-900 selection:bg-blue-200 selection:text-blue-900">
-      <Navbar lang={lang} toggleLang={toggleLang} />
-      
-      <main className="max-w-5xl mx-auto px-5 pb-32">
-        <Hero lang={lang} />
+    <div className="container">
+        {/* Header: Avatar, Name, Toggle */}
+        <header className="header">
+            <div className="profile-row">
+                <div className="avatar">
+                    <img 
+                      src="https://raw.githubusercontent.com/chenjin198366/Jin-Website/main/profile.jpg" 
+                      alt="Jin Chen" 
+                      onError={(e) => {
+                        e.currentTarget.style.display = 'none';
+                        e.currentTarget.parentElement!.style.background = '#f3f4f6';
+                      }}
+                    />
+                </div>
+                <div>
+                    <div className="name">{header.name[lang]}</div>
+                    <div className="title">{header.title[lang]}</div>
+                </div>
+            </div>
+            
+            <button className="lang-btn" onClick={toggleLang}>
+                {lang === 'cn' ? 'EN' : '中文'}
+            </button>
+        </header>
 
-        <section className="mb-24">
-          <h2 className="text-3xl font-bold mb-10 flex items-center gap-3 text-gray-900">
-            <Terminal className="text-blue-600" />
-            {sections.coreCompetencies[lang]}
-          </h2>
-          
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {skills.map((skill, index) => (
-              <Card key={index} className="flex flex-col h-full">
-                <div className="mb-4 p-3 bg-gray-100 w-fit rounded-2xl border border-gray-200">
-                    {index === 0 ? <Server size={24} className="text-blue-600"/> : <Terminal size={24} className="text-emerald-600"/>}
-                </div>
-                <h3 className="text-2xl font-bold mb-4 text-gray-900">{skill.title[lang]}</h3>
-                <p className="text-gray-600 mb-6 flex-grow leading-relaxed">
-                  {skill.description[lang]}
-                </p>
-                <div className="flex flex-wrap gap-2 mt-auto">
-                  {skill.tags.map(tag => (
-                    <span key={tag} className="px-3 py-1 bg-gray-100 rounded-full text-sm text-gray-700 border border-gray-200 font-medium">
-                      {tag}
-                    </span>
-                  ))}
-                </div>
-              </Card>
-            ))}
-          </div>
+        {/* Intro Section */}
+        <section className="section hover-block">
+            <div className="section-header">{summary.title[lang]}</div>
+            <p className="intro-text">
+                {summary.text[lang]}
+            </p>
+            <div className="contact-info">
+                <span>{header.location[lang]}</span>
+                <span>·</span>
+                <span>13918249627</span>
+                <span>·</span>
+                <a href="mailto:13918249627@139.com" className="contact-link">
+                    13918249627@139.com
+                </a>
+            </div>
         </section>
 
-        <section className="mb-24">
-             <h2 className="text-3xl font-bold mb-10 flex items-center gap-3 text-gray-900">
-                <Briefcase className="text-blue-600" />
-                {sections.professionalJourney[lang]}
-             </h2>
-             <Card className="relative overflow-hidden">
-                <div className="absolute top-0 right-0 p-8 opacity-[0.03]">
-                    <Briefcase size={120} className="text-black" />
-                </div>
-                <div className="space-y-8 relative z-10">
-                    {experience.map((job, idx) => (
-                        <div key={idx} className="group">
-                             <div className="flex flex-col md:flex-row md:items-baseline justify-between mb-2">
-                                <h4 className="text-xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors">
-                                    {job.company[lang]}
-                                </h4>
-                                <span className="text-sm font-mono text-gray-500 bg-gray-100 px-2 py-1 rounded border border-gray-200">
-                                    {job.period}
-                                </span>
-                             </div>
-                             <p className="text-gray-600 text-lg">{job.role[lang]}</p>
-                             {idx !== experience.length - 1 && (
-                                 <div className="h-px bg-gradient-to-r from-gray-200 via-gray-300 to-gray-200 my-8" />
-                             )}
+        {/* Experience - Timeline View */}
+        <section className="section">
+            <div className="section-header">{experience.title[lang]}</div>
+            
+            {experience.jobs.map((job, idx) => (
+                <div key={idx} className="timeline-item hover-block">
+                    <div className="timeline-date">
+                        {job.date[lang]}
+                    </div>
+                    <div className="timeline-content">
+                        <h3>{job.title[lang]}</h3>
+                        <span className="timeline-company">{job.company[lang]}</span>
+                        
+                        <div className="timeline-body">
+                            {job.bullets.map((bullet, bIdx) => (
+                                <div key={bIdx} className="timeline-bullet">
+                                    <span>•</span>
+                                    <div>
+                                        {bullet.title && <strong>{bullet.title[lang]} </strong>}
+                                        {bullet.content[lang]}
+                                    </div>
+                                </div>
+                            ))}
                         </div>
-                    ))}
+                    </div>
                 </div>
-             </Card>
+            ))}
         </section>
 
-        <section className="mb-32">
-             <h2 className="text-3xl font-bold mb-10 flex items-center gap-3 text-gray-900">
-                <Award className="text-blue-600" />
-                {sections.certifications[lang]}
-             </h2>
-             <Card className="flex flex-wrap gap-3">
-                {certifications.map((cert, idx) => (
-                    <span 
-                        key={idx}
-                        className={`px-4 py-2 rounded-xl text-sm font-medium transition-all hover:scale-105 cursor-default ${
-                            idx === 0 
-                                ? 'bg-blue-600 text-white shadow-lg shadow-blue-600/20' 
-                                : 'bg-white text-gray-700 border border-gray-200 hover:border-gray-400 shadow-sm'
-                        }`}
-                    >
-                        {cert}
-                    </span>
+        {/* Skills - List View */}
+        <section className="section">
+             <div className="section-header">{skills.title[lang]}</div>
+             <div className="skills-grid">
+                {skills.groups.map((group, idx) => (
+                    <div className="skill-group hover-block" key={idx}>
+                        <div className="skill-category">{group.category[lang]}</div>
+                        <div className="tags-wrapper">
+                             {group.tags.map((tag, tIdx) => (
+                                  <span className="minimal-tag" key={tIdx}>
+                                      {tag[lang]}
+                                  </span>
+                              ))}
+                        </div>
+                    </div>
                 ))}
-             </Card>
+             </div>
         </section>
 
-        <div className="text-center py-10">
-          <h2 className="text-3xl font-bold mb-8 text-gray-900">{sections.contact[lang]}</h2>
-          <div className="inline-block relative group">
-              <div className="absolute -inset-1 bg-gradient-to-r from-blue-600 to-cyan-500 rounded-full blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200"></div>
-              <a
-                href="mailto:25169364@qq.com"
-                className="relative flex items-center gap-3 bg-gray-900 text-white px-8 py-4 rounded-full font-bold text-lg hover:bg-black transition-colors shadow-xl"
-              >
-                <Mail size={20} />
-                {sections.emailBtn[lang]}
-              </a>
-          </div>
-          <p className="mt-6 text-gray-500 font-mono">25169364@qq.com</p>
-        </div>
-      </main>
+        {/* Certifications */}
+        <section className="section">
+             <div className="section-header">{certifications.title[lang]}</div>
+             <div className="skills-grid">
+                <div className="skill-group hover-block">
+                    <div className="skill-category">{lang === 'cn' ? '证书' : 'Certs'}</div>
+                    <div className="tags-wrapper">
+                         {certifications.list.map((cert, idx) => (
+                              <span className="minimal-tag" key={idx}>{cert[lang]}</span>
+                         ))}
+                    </div>
+                </div>
+             </div>
+        </section>
+
+        {/* Education */}
+        <section className="section">
+            <div className="section-header">{education.title[lang]}</div>
+            {education.items?.map((edu, idx) => (
+                <div className="timeline-item hover-block" style={{ marginBottom: '20px' }} key={idx}>
+                    <div className="timeline-date">{edu.date?.[lang]}</div>
+                    <div className="timeline-content">
+                        <h3 style={{ fontSize: '1rem'}}>{edu.school?.[lang]}</h3>
+                        <div className="timeline-company">{edu.major?.[lang]} · {edu.degree?.[lang]}</div>
+                    </div>
+                </div>
+            ))}
+        </section>
     </div>
   );
 };
