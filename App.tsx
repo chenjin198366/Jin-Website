@@ -18,7 +18,7 @@ const App: React.FC = () => {
             <div className="profile-row">
                 <div className="avatar">
                     <img 
-                      src="https://raw.githubusercontent.com/chenjin198366/Jin-Website/main/profile.jpg" 
+                      src="https://chuantu.cj1983.dpdns.org/api/rfile/Gemini_Generated_Image_auo3k2auo3k2auo3.png" 
                       alt="Jin Chen" 
                       onError={(e) => {
                         e.currentTarget.style.display = 'none';
